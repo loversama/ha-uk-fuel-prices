@@ -1,0 +1,51 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "UK Fuel Prices",
+        "description": "Enter your Fuel Finder API credentials. Get them from https://www.fuel-finder.service.gov.uk",
+        "data": {
+          "client_id": "Client ID",
+          "client_secret": "Client Secret"
+        }
+      },
+      "postcodes": {
+        "title": "Add Postcode",
+        "description": "Enter a UK postcode to monitor fuel prices for",
+        "data": {
+          "postcode": "Postcode (e.g. SW1A 1AA)",
+          "radius": "Search radius (miles)",
+          "fuel_type": "Fuel type"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Manage Postcodes",
+        "description": "Current postcodes: {postcodes}\n\nChoose an action:",
+        "data": {
+          "action": "Action"
+        }
+      },
+      "add_postcode": {
+        "title": "Add Postcode",
+        "data": {
+          "postcode": "Postcode (e.g. SW1A 1AA)",
+          "radius": "Search radius (miles)",
+          "fuel_type": "Fuel type"
+        }
+      },
+      "remove_postcode": {
+        "title": "Remove Postcode",
+        "data": {
+          "postcode": "Postcode to remove"
+        }
+      }
+    }
+  }
+}

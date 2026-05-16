@@ -1,0 +1,10 @@
+{
+  "domain": "uk_fuel_prices",
+  "name": "UK Fuel Prices",
+  "codeowners": ["@loversama"],
+  "config_flow": true,
+  "documentation": "https://github.com/loversama/ha-uk-fuel-prices",
+  "iot_class": "cloud_polling",
+  "requirements": ["aiohttp"],
+  "version": "1.0.0"
+}

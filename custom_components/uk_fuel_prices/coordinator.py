@@ -117,9 +117,11 @@ class FuelPriceCoordinator(DataUpdateCoordinator):
 
                         if self._block_supermarkets:
                             name_upper = st["name"].upper()
-                            supermarket_names = ["TESCO", "ASDA", "MORRISONS", "SAINSBURY", "COSTCO", "WAITROSE"]
-                            is_supermarket = st["is_supermarket"] or any(s in name_upper for s in supermarket_names)
-                            if is_supermarket:
+                            supermarket_brands = [
+                                "TESCO", "ASDA", "MORRISONS", "SAINSBURY",
+                                "COSTCO", "WAITROSE", "CO-OP", "COOP",
+                            ]
+                            if any(brand in name_upper for brand in supermarket_brands):
                                 continue
 
                         nearby.append({

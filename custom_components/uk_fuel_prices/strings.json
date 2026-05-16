@@ -19,6 +19,10 @@
         }
       }
     },
+    "error": {
+      "at_least_one": "Please enter at least one postcode",
+      "unknown": "An unexpected error occurred"
+    },
     "abort": {
       "already_configured": "Already configured"
     }

@@ -26,7 +26,7 @@ async def async_setup_entry(
         fuel_type = pc.get("fuel_type", "B7_STANDARD")
         sensors.append(FuelPriceSensor(coordinator, postcode, fuel_type, entry.entry_id))
 
-    async_add_entities(sensors, True)
+    async_add_entities(sensors, False)
 
 
 class FuelPriceSensor(CoordinatorEntity, SensorEntity):

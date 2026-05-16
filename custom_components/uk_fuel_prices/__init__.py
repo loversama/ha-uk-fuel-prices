@@ -21,8 +21,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
 
-    # Fetch data in background — API takes ~2 min to page through all stations
-    await coordinator.async_request_refresh()
+    # Schedule first fetch as a fire-and-forget background task.
+    # The API takes ~2 min to page through all stations — must not block setup.
+    hass.async_create_background_task(
+        coordinator.async_refresh(), f"{DOMAIN}_first_refresh"
+    )
     return True
 
 

@@ -49,7 +49,17 @@
         "data": {
           "postcode": "Postcode to remove"
         }
+      },
+      "credentials": {
+        "title": "API Credentials",
+        "data": {
+          "client_id": "Client ID",
+          "client_secret": "Client Secret"
+        }
       }
+    },
+    "abort": {
+      "no_postcodes": "No postcodes to remove"
     }
   }
 }

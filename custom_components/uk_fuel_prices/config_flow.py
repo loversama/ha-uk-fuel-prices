@@ -30,6 +30,9 @@ class UKFuelPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step — API credentials."""
+        if self._async_current_entries():
+            return self.async_abort(reason="already_configured")
+
         errors = {}
         if user_input is not None:
             self._client_id = user_input[CONF_CLIENT_ID]
@@ -119,6 +122,8 @@ class UKFuelPricesOptionsFlow(config_entries.OptionsFlow):
                 return await self.async_step_add_postcode()
             elif action == "remove":
                 return await self.async_step_remove_postcode()
+            elif action == "credentials":
+                return await self.async_step_credentials()
 
         return self.async_show_form(
             step_id="init",
@@ -126,6 +131,7 @@ class UKFuelPricesOptionsFlow(config_entries.OptionsFlow):
                 vol.Required("action"): vol.In({
                     "add": "Add a postcode",
                     "remove": "Remove a postcode",
+                    "credentials": "Change API credentials",
                 }),
             }),
             description_placeholders={"postcodes": postcode_list},
@@ -175,5 +181,27 @@ class UKFuelPricesOptionsFlow(config_entries.OptionsFlow):
             step_id="remove_postcode",
             data_schema=vol.Schema({
                 vol.Required("postcode"): vol.In(postcode_options),
+            }),
+        )
+
+    async def async_step_credentials(self, user_input=None):
+        """Update API credentials."""
+        if user_input is not None:
+            self.hass.config_entries.async_update_entry(
+                self._config_entry,
+                data={
+                    CONF_CLIENT_ID: user_input[CONF_CLIENT_ID],
+                    CONF_CLIENT_SECRET: user_input[CONF_CLIENT_SECRET],
+                },
+            )
+            return self.async_create_entry(
+                title="", data=self._config_entry.options
+            )
+
+        return self.async_show_form(
+            step_id="credentials",
+            data_schema=vol.Schema({
+                vol.Required(CONF_CLIENT_ID, default=self._config_entry.data.get(CONF_CLIENT_ID, "")): str,
+                vol.Required(CONF_CLIENT_SECRET, default=self._config_entry.data.get(CONF_CLIENT_SECRET, "")): str,
             }),
         )

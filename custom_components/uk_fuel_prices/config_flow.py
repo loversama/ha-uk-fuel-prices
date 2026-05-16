@@ -10,6 +10,7 @@ from .const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,
     CONF_POSTCODES,
+    CONF_BLOCK_SUPERMARKETS,
     FUEL_TYPES,
     DEFAULT_RADIUS,
     DEFAULT_FUEL_TYPE,
@@ -78,6 +79,7 @@ class UKFuelPricesConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     },
                     options={
                         CONF_POSTCODES: self._postcodes,
+                        CONF_BLOCK_SUPERMARKETS: False,
                     },
                 )
 
@@ -118,12 +120,25 @@ class UKFuelPricesOptionsFlow(config_entries.OptionsFlow):
 
         if user_input is not None:
             action = user_input.get("action")
+            block_supermarkets = user_input.get(CONF_BLOCK_SUPERMARKETS)
+
+            if block_supermarkets is not None:
+                new_options = dict(self._config_entry.options)
+                new_options[CONF_BLOCK_SUPERMARKETS] = block_supermarkets
+                self.hass.config_entries.async_update_entry(
+                    self._config_entry, options=new_options
+                )
+
             if action == "add":
                 return await self.async_step_add_postcode()
             elif action == "remove":
                 return await self.async_step_remove_postcode()
             elif action == "credentials":
                 return await self.async_step_credentials()
+            else:
+                return self.async_create_entry(title="", data=self._config_entry.options)
+
+        current_block = self._config_entry.options.get(CONF_BLOCK_SUPERMARKETS, False)
 
         return self.async_show_form(
             step_id="init",
@@ -132,7 +147,9 @@ class UKFuelPricesOptionsFlow(config_entries.OptionsFlow):
                     "add": "Add a postcode",
                     "remove": "Remove a postcode",
                     "credentials": "Change API credentials",
+                    "save": "Save settings",
                 }),
+                vol.Optional(CONF_BLOCK_SUPERMARKETS, default=current_block): bool,
             }),
             description_placeholders={"postcodes": postcode_list},
         )

@@ -30,10 +30,11 @@
   "options": {
     "step": {
       "init": {
-        "title": "Manage Postcodes",
-        "description": "Current postcodes: {postcodes}\n\nChoose an action:",
+        "title": "Settings",
+        "description": "Current postcodes: {postcodes}",
         "data": {
-          "action": "Action"
+          "action": "Action",
+          "block_supermarkets": "Block supermarket fuel stations"
         }
       },
       "add_postcode": {

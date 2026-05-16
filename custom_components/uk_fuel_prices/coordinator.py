@@ -48,6 +48,7 @@ class FuelPriceCoordinator(DataUpdateCoordinator):
         self._client_id = entry.data[CONF_CLIENT_ID]
         self._client_secret = entry.data[CONF_CLIENT_SECRET]
         self._postcodes = entry.options.get(CONF_POSTCODES, [])
+        self._block_supermarkets = entry.options.get("block_supermarkets", False)
         self._token = None
 
     async def _async_update_data(self):
@@ -112,6 +113,9 @@ class FuelPriceCoordinator(DataUpdateCoordinator):
                                     pass
                                 break
                         if price is None or price <= 0:
+                            continue
+
+                        if self._block_supermarkets and st["is_supermarket"]:
                             continue
 
                         nearby.append({

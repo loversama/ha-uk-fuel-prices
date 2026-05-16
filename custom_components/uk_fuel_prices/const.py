@@ -6,6 +6,7 @@ API_BASE = "https://www.developer.fuel-finder.service.gov.uk"
 CONF_CLIENT_ID = "client_id"
 CONF_CLIENT_SECRET = "client_secret"
 CONF_POSTCODES = "postcodes"
+CONF_BLOCK_SUPERMARKETS = "block_supermarkets"
 
 FUEL_TYPES = {
     "B7_STANDARD": "Diesel",

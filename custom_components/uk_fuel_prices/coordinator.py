@@ -115,8 +115,12 @@ class FuelPriceCoordinator(DataUpdateCoordinator):
                         if price is None or price <= 0:
                             continue
 
-                        if self._block_supermarkets and st["is_supermarket"]:
-                            continue
+                        if self._block_supermarkets:
+                            name_upper = st["name"].upper()
+                            supermarket_names = ["TESCO", "ASDA", "MORRISONS", "SAINSBURY", "COSTCO", "WAITROSE"]
+                            is_supermarket = st["is_supermarket"] or any(s in name_upper for s in supermarket_names)
+                            if is_supermarket:
+                                continue
 
                         nearby.append({
                             "name": st["name"],
